@@ -1,0 +1,14 @@
+{
+	"name": "test-web-serial-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "parcel ./index.html"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"regenerator-runtime": "^0.13.7"
+	}
+}
