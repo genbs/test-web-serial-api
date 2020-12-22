@@ -4,11 +4,14 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "parcel ./index.html"
+		"start": "parcel ./index.html",
+		"start-node": "node node-index.js",
+		"debug": "DEBUG=* node node-index.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"regenerator-runtime": "^0.13.7"
+		"regenerator-runtime": "^0.13.7",
+		"serialport": "^9.0.4"
 	}
 }

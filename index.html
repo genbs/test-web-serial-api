@@ -7,14 +7,26 @@
 		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
 	</head>
 	<body>
-		<script src="./index.js"></script>
-		<input id="input" />
-		<ul id="result"></ul>
+	<div>
+		<form name="data" novalidate>
+			<div>pointStartX <input type="text" name="startX" value="0" /></div>
+			<div>pointStartY <input type="text" name="startY" value="0" /></div>
 
-		<button id="penup">PEN UP</button>
-		<button id="pendown">PEN DOWN</button>
-		<button id="home">HOME</button>
 
-		<canvas id="rect"></canvas>
-	</body>
+			<div>pointMaxX <input type="text" name="maxX" value="297" /></div>
+			<div>pointMaxY <input type="text" name="maxY" value="210" /></div>
+
+
+			<div>velocity <input type="text" name="velocity" value="5000" /></div>
+
+
+			<div>pointUp <input type="text" name="pointUp" value="30" /></div>
+			<div>pointDown <input type="text" name="pointDown" value="0" /></div>
+
+			<button id="generate">generate</button>
+		</form>
+	</div>
+
+
+	<script src="./index.js"></script>
 </html>
