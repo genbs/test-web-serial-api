@@ -70,12 +70,10 @@ class DrawerGCode {
 
     generate() {
 
-        const sceneBounding = this.calculateRect()
+        const sceneBounding = this.getSceneBounding()
         
-        const scaleX = this.scene.width / this.settings.maxX
-        const scaleY = scaleX
-        // const scaleY = this.scene.height / this.settings.maxY
-
+        const scale = Math.max(this.scene.width, this.scene.height) / Math.min(this.settings.maxX, this.settings.maxY)
+        const offset = [sceneBounding.minX / scale, sceneBounding.minY / scale]
         const gcode = []
         
         this.concat(gcode, this.useAbsolutePosition())
@@ -100,15 +98,15 @@ class DrawerGCode {
             ) {
                 const currentIndexing = childIndexedBuffer[i]
 
-                const startX = Urpflanze.clamp(this.settings.minX, this.settings.maxX, childBuffer[vertexIndex] / scaleX)
-                const startY = Urpflanze.clamp(this.settings.minY, this.settings.maxY, childBuffer[vertexIndex + 1] / scaleY)
+                const startX = Urpflanze.clamp(this.settings.minX, this.settings.maxX, childBuffer[vertexIndex] / scale + offset[0])
+                const startY = Urpflanze.clamp(this.settings.minY, this.settings.maxY, childBuffer[vertexIndex + 1] / scale + offset[1])
                 
                 this.concat(gcode, this.moveTo(startX, startY))
                 
                 vertexIndex += 2
                 for (let len = vertexIndex + currentIndexing.frameLength - 2; vertexIndex < len; vertexIndex += 2) {
-                    const currentX = Urpflanze.clamp(this.settings.minX, this.settings.maxX, childBuffer[vertexIndex] / scaleX)
-                    const currentY = Urpflanze.clamp(this.settings.minY, this.settings.maxY, childBuffer[vertexIndex + 1] / scaleY)
+                    const currentX = Urpflanze.clamp(this.settings.minX, this.settings.maxX, childBuffer[vertexIndex] / scale + offset[0])
+                    const currentY = Urpflanze.clamp(this.settings.minY, this.settings.maxY, childBuffer[vertexIndex + 1] / scale + offset[1])
 
                     this.concat(gcode, this.lineTo(currentX, currentY))
                 }
@@ -123,7 +121,7 @@ class DrawerGCode {
         return gcode
     }
 
-    calculateRect() {
+    getSceneBounding() {
         let maxX = Number.MIN_VALUE
         let minX = Number.MAX_VALUE
         let maxY = Number.MIN_VALUE

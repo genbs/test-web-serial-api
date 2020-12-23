@@ -30,7 +30,6 @@ function dequeue() {
     }
 }
   
-// Open errors will be emitted as an error event
-port.on('error', function(err) {
-    console.log('Error: ', err.message)
+port.on('error', function(e) {
+    console.log('error: ', e.message)
 })
