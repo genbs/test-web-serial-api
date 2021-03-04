@@ -210,8 +210,9 @@ var DrawerGCode = /*#__PURE__*/function () {
     key: "generate",
     value: function generate() {
       var sceneBounding = this.getSceneBounding();
-      var scale = Math.max(this.scene.width, this.scene.height) / Math.min(this.settings.maxX, this.settings.maxY);
-      var offset = [sceneBounding.minX / scale, sceneBounding.minY / scale];
+      var scale = Math.max(this.scene.width, this.scene.height) / Math.min(this.settings.maxX, this.settings.maxY); // const offset = [sceneBounding.minX / scale, sceneBounding.minY / scale]
+
+      var offset = [0, 0];
       var gcode = [];
       this.concat(gcode, this.useAbsolutePosition());
       this.concat(gcode, this.penUp());
@@ -297,47 +298,31 @@ var _DrawerGCode = _interopRequireDefault(require("./src/DrawerGCode"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var size = 1080;
+var size = 800;
 var scene = new Urpflanze.Scene({
   width: size,
   height: size,
   background: '#eee',
   color: '#000'
-});
-var shapeloop = new Urpflanze.ShapeLoop({
-  repetitions: [80, 1],
-  sideLength: size / 3.6,
-  translate: [80, -120],
-  loop: {
-    start: 0,
-    end: 1000,
-    inc: 1,
-    vertex: function vertex(s, p) {
-      var x = 0,
-          y = 0;
-      var time = p.time + p.repetition.index * 6;
-      var stime = time * Urpflanze.PI2;
-      var t = Math.sin(stime / 5000) + p.context.noise('seed', s.offset * 10, Math.sin(stime / 1000)) * 0.02;
-      var angle = s.offset * (Urpflanze.PI2 * 1.5 + t * Math.PI * 2) - Math.sin(stime / 10000) * Math.PI * 2 - Math.sin(stime / 20000) * Math.PI * 2; // const at = Math.sin(stime / 10000) * Math.PI
+}); // scene.add(
+// 	new Urpflanze.Rect({
+// 		sideLength: [860, 910],
+// 		translate: [0, 60],
+// 	})
+// )
 
-      var at = 0;
-      var minC = 0.96;
-      var k = 1 + (0.5 + Math.sin(stime / 10000) * 0.5) * 0.5 + p.context.noise('seed', s.offset * 2, Math.sin(stime / 5000) * s.offset) * 0.2;
-      var radius = 0.5 + (1 - s.offset) * 1;
-      x += Math.cos(angle) * (1 - Math.pow(s.offset * 0.5, 1) * minC) * radius * k;
-      y -= Math.sin(angle) * (1 - Math.pow(s.offset * 0.5, 1) * minC) * radius * k;
-      var angle2 = angle * 60;
-      var g = p.context.noise('seed', s.offset * 2 * Math.sin(stime / 20000));
-      x -= Math.cos(angle2 + at) * (0.01 * g);
-      y -= Math.sin(angle2 + at) * (0.01 * g);
-      y -= Math.cos(angle) * Math.sin(angle * 3) * (0.5 + p.context.noise('seed', s.offset * 5, Math.sin(stime / 10000)) * 0.5) * Math.pow(1 - s.offset * 0.5, 10) * 0.8;
-      return [x, y];
-    }
+var t = new Urpflanze.Rect({
+  repetitions: [1, 50],
+  sideLength: 350,
+  scale: function scale(t) {
+    return 1 - t.repetition.offset * 0.99;
   },
-  loopDependencies: ['propArguments'],
-  bClosed: false
+  rotateZ: function rotateZ(t) {
+    return -Math.PI / 2 + t.repetition.offset * (Math.PI / 2);
+  },
+  distance: 0
 });
-scene.add(shapeloop);
+scene.add(t);
 var drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
   simmetricLines: 0 // clear: false,
   // ghosts: 1000,
@@ -389,7 +374,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "32927" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38951" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
