@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node src/index.js",
+		"start": "node src/index.js /dev/ttyUSB0 115200 ./data.gcode",
 		"debug": "DEBUG=* node src/index.js"
 	},
 	"author": "",
