@@ -4,13 +4,14 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node node-index.js",
-		"debug": "DEBUG=* node node-index.js"
+		"start": "node src/index.js /dev/ttyUSB0 115200 ./data.gcode",
+		"debug": "DEBUG=* node src/index.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"regenerator-runtime": "^0.13.7",
-		"serialport": "^9.0.4"
+		"serialport": "^9.0.4",
+		"yargs": "^17.1.1"
 	}
 }
